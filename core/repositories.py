@@ -16,3 +16,9 @@ class FavoritoRepository(ABC):
     @abstractmethod
     def buscar_favoritas(self) -> list[Serie]:
         """Retorna todas as séries favoritadas"""
+
+
+class InsightRepository(ABC):
+    @abstractmethod
+    def gerar_insight(self, sinopse: str, generos: list[str]) -> str:
+        """Gera um insight curto sobre uma série"""

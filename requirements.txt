@@ -4,3 +4,4 @@ psycopg2-binary
 huggingface-hub
 python-dotenv
 pytest
+httpx
