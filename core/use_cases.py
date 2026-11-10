@@ -1,5 +1,15 @@
+import logging
+
 from core.entities import Serie
-from core.repositories import SerieExternalRepository, FavoritoRepository
+from core.repositories import (
+    FavoritoRepository,
+    InsightRepository,
+    SerieExternalRepository,
+)
+
+logger = logging.getLogger(__name__)
+
+INSIGHT_INDISPONIVEL = "Insight indisponível no momento."
 
 
 class BuscarSerieUseCase:
@@ -27,3 +37,15 @@ class ListarFavoritasUseCase:
 
     def executar(self) -> list[Serie]:
         return self.repository.buscar_favoritas()
+
+
+class GerarInsightUseCase:
+    def __init__(self, repository: InsightRepository):
+        self.repository = repository
+
+    def executar(self, serie: Serie) -> str:
+        try:
+            return self.repository.gerar_insight(serie.sinopse or "", serie.generos or [])
+        except Exception:
+            logger.exception("Falha ao gerar insight para a série %s", serie.id)
+            return INSIGHT_INDISPONIVEL
